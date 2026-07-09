@@ -30,3 +30,4 @@
 - Soft deletes para usuarios, productos y categorías.
 - Liberación del stock del carrito cada 15 minutos con un job.
 - Flujo de "SHIPPED" y "RETURNED
+- Administrador del sistema.

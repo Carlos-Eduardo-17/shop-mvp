@@ -10,4 +10,4 @@
 - Puede agregar/quitar unidades de cada producto en el carrito (según stock máx).
 - Puede eliminar productos del carrito
 - Puede usar otra dirección alterna para entrega a domicilio
-- Puede realizar el checkout de su carrito y generar una orden de compra
+- Puede realizar el checkout de su carrito y generar una orden de compra.
