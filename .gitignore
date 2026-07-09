@@ -80,7 +80,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 .output
 
 # Gatsby files
@@ -142,5 +141,30 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
-# Personalizados
+
+# PERSONALIZADOS
 /pasos.md
+# src/ → Ignorarlo en etapa de desarrollo
+dist/
+# Por si acaso
+tsconfig.tsbuildinfo
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.db
+*.db-journal
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/project.xcworkspace/
+.vscode/tasks.json
+.vscode/launch.json
+.idea/
