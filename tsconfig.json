@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "declaration": false, // Genera .d.ts.
+    "declarationMap": false, // Genera .d.ts.map.
+    "esModuleInterop": true, // Permite convivencia entre ES Modules y CommonJS.
+    "exactOptionalPropertyTypes": true, // Hace que las propiedades opcionales sean exactamente del tipo declarado o undefined, evitando asignaciones no intencionadas.
+    "forceConsistentCasingInFileNames": true, // Previene errores de mayúsculas/minúsculas en imports.    
+    "isolatedModules": true, // Asegura que cada archivo pueda ser compilado de forma independiente, necesario para herramientas como Babel o ts-node.
+    // "jsx": "react-jsx", // Soporte para JSX moderno, necesario si se usan componentes React.
+    "module": "nodenext", // TS compilará módulos como Node moderno los entiende (import/export, "type":"module", exigirá .js en los imports).
+    "moduleDetection": "force", // Obliga a tratar todos los archivos como módulos, incluso sin imports/exports, para evitar confusiones.
+    "moduleResolution": "NodeNext", // Busca archivos como Node lo haría, respeta package.json, respeta ESM.    
+    "noUncheckedIndexedAccess": true, // Hace que el acceso a arrays y objetos indexados sea más seguro, requiriendo manejo de undefined.
+    "noUncheckedSideEffectImports": true, // Requiere manejo explícito de módulos importados que podrían tener efectos secundarios, evitando importaciones accidentales.
+    "outDir": "./dist", // Lugar de destino para los JS compilados siguiendo la estructura copiada original.    
+    "rootDir": "./src", // Lugar de origen de todo el código fuente (los .ts). Copia la estructura de carpetas.
+    "skipLibCheck": true, // Evita revisar tipos de librerías externas.
+    "sourceMap": false, // Genera .js.map.
+    "strict": true, // Impide any implícito, controla null y undefined. Exige tipos y asegura contratos reales entre capas.
+    "target": "ES2022", // Incluye async/await nativo, clases modernas, object.hasOwn, sintaxis estable, compatibilidad con Node 18+.    
+    "verbatimModuleSyntax": false, // Preserva la sintaxis de import/export sin transformaciones, útil para herramientas que esperan ESM puro.  
+    // "lib": ["esnext"], // Incluye las últimas características de JavaScript, como Promise, Map, Set, etc. (opcional si target ya es ES2022).
+    "types": [
+      "node"
+    ], // Incluye tipos de Node.js para desarrollo (opcional si se instalan @types/node).
+    // "noImplicitReturns": true, // Requiere que todas las funciones devuelvan un valor o no devuelvan nada, evitando errores de lógica.
+    // "noImplicitOverride": true, // Requiere que los métodos que sobrescriben otros en clases tengan la palabra clave 'override', asegurando que realmente están sobrescribiendo algo.
+    "noUnusedLocals": true, // Requiere que todas las variables declaradas sean usadas, evitando código muerto.
+    "noUnusedParameters": true, // Requiere que todos los parámetros de funciones sean usados, evitando código innecesario.
+    "noFallthroughCasesInSwitch": true, // Previene casos de switch que caen al siguiente caso sin un break, evitando errores lógicos.
+    // "noPropertyAccessFromIndexSignature": true, // Requiere que las propiedades definidas en index signatures se accedan usando la notación de corchetes, evitando confusiones con propiedades reales.
+    "noImplicitAny": true, // Requiere que todas las variables tengan un tipo explícito o inferido, evitando el uso implícito de 'any' que puede ocultar errores.    
+  },
+  "include": [
+    "src/**/*", // Única carpeta que nos interesa compilar    
+  ],
+  "exclude": [
+    "node_modules", // Evita que TS compile esos archivos cuando se los llama con import
+    "dist" // Evita bucles infinitos (en caso de usar un watcher) ignorando la salida
+  ]
+}
