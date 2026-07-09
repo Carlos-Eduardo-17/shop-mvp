@@ -144,7 +144,7 @@ vite.config.ts.timestamp-*
 
 # PERSONALIZADOS
 /pasos.md
-# src/ → Ignorarlo en etapa de desarrollo
+# src/ → No ignorarlo en etapa de desarrollo
 dist/
 # Por si acaso
 tsconfig.tsbuildinfo
