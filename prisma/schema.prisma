@@ -10,3 +10,146 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+/**
+ * ----------------------------------------------------------------
+ * 1.  USUARIOS Y AUTENTICACIÓN
+ * ----------------------------------------------------------------
+ */
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+model User {
+  id             String  @id @default(uuid())
+  email          String  @unique
+  passwordHashed String  @map("password_hashed")
+  firstName      String  @map("first_name")
+  lastName       String  @map("last_name")
+  role           Role    @default(CLIENT)
+  refreshToken   String? @map("refresh_token")
+
+  cart   Cart? // 1 Usuario : 1 Carrito
+  orders Order[] // 1 Usuario : M Órdenes
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+/**
+ * ----------------------------------------------------------------
+ * 2.  CATÁLOGO DE PRODUCTOS
+ * ----------------------------------------------------------------
+ */
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  products Product[] // 1 Categoría : M Productos
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model Product {
+  id           Int     @id @default(autoincrement())
+  name         String
+  description  String
+  unitPrice    Decimal @map("unit_price") @db.Decimal(10, 2)
+  unitsInStock Int     @default(0) @map("units_in_stock")
+  imageUrl     String? @map("image_url")
+
+  categoryId   Int           @map("category_id") // M Productos : 1 Categoría
+  cartItems    CartItem[] // 1 Producto : M Elementos de carrito
+  orderDetails OrderDetail[] // 1 Producto : M Detalles de Órden
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@map("products")
+}
+
+/**
+ * ----------------------------------------------------------------
+ * 3.  CARRITO DE COMPRAS
+ * ----------------------------------------------------------------
+ */
+
+model Cart {
+  id Int @id @default(autoincrement())
+
+  userId String     @unique @map("user_id") // 1 Carrito : 1 Usuario
+  items  CartItem[] // 1 Carrito : M Elementos de carrito
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id       Int @id @default(autoincrement())
+  quantity Int
+
+  cartId    Int @map("cart_id") // M Elementos de carrito : 1 Carrito
+  productId Int @map("product_id") // M Elementos de carrito : 1 Product
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+/**
+ * ----------------------------------------------------------------
+ * 4.  ÓRDENES Y CHECKOUT
+ * ----------------------------------------------------------------
+ */
+
+enum OrderStatus {
+  PENDING
+  PAID
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  status          OrderStatus @default(PENDING)
+  total           Decimal     @db.Decimal(10, 2)
+  shippingAddress String      @map("shipping_address")
+
+  userId  String        @map("user_id") // M Orden: 1 Usuario
+  details OrderDetail[] // 1 Orden : M Detalles de Orden
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("orders")
+}
+
+model OrderDetail {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  unitPrice Decimal @map("unit_price") @db.Decimal(10, 2)
+
+  orderId   Int @map("order_id") // M Detalles de Órden : 1 Orden
+  productId Int @map("product_id") // M Detalles de Órden : 1 Product
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_details")
+}
