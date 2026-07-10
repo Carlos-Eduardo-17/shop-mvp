@@ -92,12 +92,18 @@ Permite que el servidor genere y valide tokens **dentro de las cookies httpOnly*
 **Sustentación:**
 <sup>1</sup>Cliente de Prisma para interactuar con la base de datos. <sup>2</sup>Adaptador de Prisma para PostgreSQL. <sup>3</sup>Driver oficial de PostgreSQL para Node.js.<sup>4</sup>Permite generar el cliente de Prisma y ejecutar migraciones de la base de datos. Usado exclusivamente solo en desarrollo.
 
+**Explicación de integración**
+- Tradicionalmente Prisma usaba un motor interno escrito en lenguaje Rust para conectarse a la DB. Pero eso hacía más pesado y lento al servidor y consumía más memoria RAM.
+- Sin embargo, actualmente se usa una característica más nueva y optimizada llamada **Driver Adaptes**.
+- **prisma** es la herramienta de terminal usada para ejecutar comandos como `npx prisma format`, `npx prisma db push`, y `npx prisma generate`. Básicamente lee el archivo `schema.prisma` y prepara todo el terreno, pero no anticipa cuando el servidor estará corriendo.
+- **@prisma/client** es el código usado en los `repositories` para hacer las consultas a la DB de forma tipada (como `prisma.user.findUnique(...)`). El código en TypeScript le da la orden a este cliente.
+- **@prisma/adapter-pg** adaptador usado por **@prisma/client** para traducir la orden en formato de Prisma a un formato que el driver nativo de Node.js pueda entender. Tradicionalmente **@prisma/client** usaba su motor pesado de Rust para ejecutar la orden.
+- **pg** es el **driver** que permite que el servidor de Node.js se comunique y ejecute comandos en la DB de PostgreSQL. Es la librería de más bajo nivel. Recibe la orden traducidapor el adaptador, viaja por la red hasta la DB real en Supabase, ejecuta el SQL puro y devuelve los datos por el mismo camino de regreso.
 
 ### Scripts para package.json
 - **tsx**<sup>1</sup>
 - **typescript**<sup>2</sup>
 - **rimraf**<sup>3</sup>
-
 
 **Sustentación:**
 <sup>1</sup>Permite ejecutar archivos TypeScript directamente sin necesidad de compilarlos previamente.
