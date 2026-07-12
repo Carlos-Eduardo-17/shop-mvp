@@ -1,18 +1,34 @@
-import express from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
-const app = express();
+export class Server {
 
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
+    private app: Application;
+    private port: string | undefined;
 
-app.get('/health', (req, res) => {
-    res.status(200).json({
-        status: 'ok',
-        message: 'API de Ecommerce funcionando correctamente'
-    });
-});
+    constructor() {
+        this.app = express();
+        this.port = process.env.PORT;
+        this.middlewares();
+        this.routes();
+    }
 
-export default app;
+    middlewares() {
+        this.app.use(cors());
+        this.app.use(express.json());
+        this.app.use(helmet());
+    }
+
+    routes() {
+        this.app.use("/api/health", (_req, res) => {
+            res.json({ status: "✅ Backend connected.", timestamp_UTC: new Date(), region: "Lima, Perú" })
+        });
+    }
+
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log(`✅ Server running on: http://localhost:${this.port}/api/health`);
+        });
+    }
+}
