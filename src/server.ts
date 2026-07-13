@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import userRoute from './routes/user.route.js';
 
 export class Server {
 
@@ -24,6 +25,7 @@ export class Server {
         this.app.use("/api/health", (_req, res) => {
             res.json({ status: "✅ Backend connected.", timestamp_UTC: new Date(), region: "Lima, Perú" })
         });
+        this.app.use("/api/users", userRoute);
     }
 
     listen() {
