@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import userRoute from './routes/user.route.js';
+import { errorHandler } from './middlewares/errorHandler.middleware.js';
 
 export class Server {
 
@@ -26,6 +27,7 @@ export class Server {
             res.json({ status: "✅ Backend connected.", timestamp_UTC: new Date(), region: "Lima, Perú" })
         });
         this.app.use("/api/users", userRoute);
+        this.app.use(errorHandler);
     }
 
     listen() {
