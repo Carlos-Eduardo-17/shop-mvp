@@ -19,7 +19,7 @@ export class UserService {
 
     async register(data: RegisterUserInputDTO): Promise<RegisterUserOutputDTO> {
 
-        if (await this.userRepository.findByEmail(data.email)) { throw new Error("Email usado por otra cuenta."); }
+        if (await this.userRepository.findByEmail(data.email)) { throw new Error("ServiceError\nuser.service.ts\nEmail usado por otra cuenta."); }
 
         const { password, ...userData } = data;
         const passwordHashed: string = await hashWord(password);

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, json } from 'express';
 import { UserService } from '../services/user.service.js';
 import { RegisterUserInputDTO, RegisterUserOutputDTO } from '../dtos/user.dto.js'
 
@@ -16,5 +16,4 @@ export class UserController {
             next(error);
         }
     }
-
 }

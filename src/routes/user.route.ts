@@ -1,11 +1,20 @@
 import { Router } from "express";
+
 import { UserController } from '../controllers/user.controller.js'
 import { UserService } from "../services/user.service.js";
 import { UserRepository } from "../repositories/user.repository.js";
 
+import { limitRequests } from "../middlewares/rateLimit.middleware.js";
+import { validateRequest } from '../middlewares/validator.middleware.js';
+
+import { registerRules } from '../validators/user.validator.js'
+
+
 const userController = new UserController(new UserService(new UserRepository()));
 const router = Router();
 
-router.post("/register", userController.register);
+// 1ro revisará el límite de request, 2do revisará que los campos cumplan con las reglas de validación, 3ro revisará si pasaron correctamente las reglas de validación
+router.post("/register", limitRequests(300, 100), registerRules, validateRequest, userController.register); //300,3
+
 
 export default router;
