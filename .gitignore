@@ -146,6 +146,8 @@ vite.config.ts.timestamp-*
 /pasos.md
 # src/ → No ignorarlo en etapa de desarrollo
 dist/
+docs/errores.md
+
 # Por si acaso
 tsconfig.tsbuildinfo
 .env.local
