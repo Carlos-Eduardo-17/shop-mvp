@@ -14,6 +14,7 @@ export class Server {
         this.port = process.env.PORT;
         this.middlewares();
         this.routes();
+        this.app.use(errorHandler);
     }
 
     middlewares() {
@@ -27,7 +28,6 @@ export class Server {
             res.json({ status: "✅ Backend connected.", timestamp_UTC: new Date(), region: "Lima, Perú" })
         });
         this.app.use("/api/users", userRoute);
-        this.app.use(errorHandler);
     }
 
     listen() {
