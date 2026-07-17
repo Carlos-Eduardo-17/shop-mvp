@@ -11,6 +11,7 @@ import { RegisterUserInputDTO, RegisterUserOutputDTO } from '../dtos/user.dto.js
 import { User } from '@prisma/client'; // Importa los tipos del cliente de Prisma
 import { UserRepository } from '../repositories/user.repository.js';
 import { hashWord } from '../utils/hash.util.js';
+import { AppError } from '../utils/appError.util.js';
 
 export class UserService {
 
@@ -19,7 +20,7 @@ export class UserService {
 
     async register(data: RegisterUserInputDTO): Promise<RegisterUserOutputDTO> {
 
-        if (await this.userRepository.findByEmail(data.email)) { throw new Error("ServiceError\nuser.service.ts\nEmail usado por otra cuenta."); }
+        if (await this.userRepository.findByEmail(data.email)) { throw new AppError("Email usado por otra cuenta", 409); }
 
         const { password, ...userData } = data;
         const passwordHashed: string = await hashWord(password);
