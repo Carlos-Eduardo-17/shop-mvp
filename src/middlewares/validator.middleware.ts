@@ -7,7 +7,7 @@ export const validateRequest = (req: Request, res: Response, next: NextFunction)
 
   if (!errors.isEmpty()) { // Si hay errores de formato
     res.status(400).json({
-      error: 'VALIDATION_ERROR',
+      error: 'Error de validación',
       messages: errors.array().map(err => err.msg)
     });
     return;

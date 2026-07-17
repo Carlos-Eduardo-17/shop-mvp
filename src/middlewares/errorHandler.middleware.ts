@@ -1,76 +1,47 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
+//throw new Error("ServiceError\nEmail usado por otra cuenta.\nuser.service.ts").stack;
 
-export function errorHandler(error: any, _req: Request, res: Response, next: NextFunction): void {
+export function errorHandler(error: any, req: Request, res: Response, next: NextFunction): void {
 
-    const strError = String(error)
-    const lineas = strError.split('\n');
-    const titulo = lineas[0];
+    console.log(`\n\n---------------------------`);
+    console.log(`------| ERRROR PURO |------`);
+    console.log(`---------------------------`);
+    console.log((error));
+    console.log(`---------------------------\n`);
+    console.log("name: ", error.name);
+    console.log("message: ", error.message);
+    console.log("stack: ", error.stack);
+    console.log("statusCode: ", error.statusCode);
+    console.log("status: ", error.status);
+    console.log("type: ", error.type);
+    console.log("body: ", error.body);
+    console.log("expose: ", error.expose);
+    console.log("clientVersion: ", error.clientVersion);
+    console.log(`---------------------------\n\n`);
 
-    let linea1: string | undefined;
-    let linea2: string | undefined;
-    let linea3: string | undefined;
-
-    switch (titulo) {
-        case "PrismaClientValidationError: ":
-            linea1 = lineas[1];
-            linea2 = lineas[2];
-            linea3 = lineas[lineas.length - 1];
-            if (process.env.ENVIRONMENT === "development") {
-                res.status(500).json({
-                    error: `${titulo}`,
-                    ubicacion: `${linea1} ${linea2}`,
-                    detalle_solucion: `${linea3}`
-                });
-            } else {
-                res.status(500).json({
-                    status: "error",
-                    message: `${linea3}`
-                })
-            }
+    switch (error.name) {
+        case "ServiceError":
+            res.status(error.statusCode).json({
+                status: `${process.env.ENVIRONMENT === 'development' ? 'Error de Servicio' : 'Error'}`,
+                message: `${error.message}`,
+                details: `${process.env.ENVIRONMENT === 'development' ? error.stack : '-'}`,
+            });
             break;
-
-        case "Error: ServiceError":
-            linea1 = lineas[1];
-            linea2 = lineas[lineas.length - 1];
-            if (process.env.ENVIRONMENT === "development") {
-                res.status(500).json({
-                    error: `ServiceError`,
-                    ubicacion: `${linea1}`,
-                    detalle_solucion: `${linea2}`
-                });
-            } else {
-                res.status(500).json({
-                    status: "error",
-                    message: `${linea2}`
-                })
-            }
+        case "SyntaxError":
+        case "PrismaClientValidationError":
+            res.status(error.statusCode || 400).json({
+                status: `${process.env.ENVIRONMENT === 'development' ? 'Error de Sintaxis o de Prisma' : 'Error'}`,
+                message: `Asegúrese de enviar correctamente solo lo necesario.`,
+                details: `${process.env.ENVIRONMENT === 'development' ? error.stack : '-'}`,
+            });
             break;
 
         default:
-            if (titulo != undefined) {
-                let titulo2: string = titulo.slice(0, 11)
-
-                switch (titulo2) {
-                    case "SyntaxError":
-                        if (process.env.ENVIRONMENT === "development") {
-                            linea1 = lineas[1];
-                            res.status(500).json({
-                                error: `SyntaxError`,
-                                ubicacion: `Data Entry (Request body)`,
-                                detalle_solucion: `${titulo} ${linea1}`,
-                            });
-                        } else {
-                            res.status(500).json({
-                                status: "error",
-                                message: `Error de sintaxis.`
-                            })
-                        }
-                        break;
-                }
-
-            }
-
-            console.log("No identificado → ", titulo)
-            console.log(error)
+            res.status(error.statusCode || 400).json({
+                status: `${process.env.ENVIRONMENT === 'development' ? 'Error desconocido, leer stack y console().' : 'Error'}`,
+                message: `Error inesperado.`,
+                details: `${process.env.ENVIRONMENT === 'development' ? error.stack : '-'}`,
+            });
+            break;
     }
 }
