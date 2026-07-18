@@ -22,25 +22,25 @@ export function errorHandler(error: any, req: Request, res: Response, next: Next
     switch (error.name) {
         case "ServiceError":
             res.status(error.statusCode).json({
-                status: `${process.env.ENVIRONMENT === 'development' ? 'Error de Servicio' : 'Error'}`,
+                status: `${process.env.NODE_ENV === 'development' ? 'Error de Servicio' : 'Error'}`,
                 message: `${error.message}`,
-                details: `${process.env.ENVIRONMENT === 'development' ? error.stack : '-'}`,
+                details: `${process.env.NODE_ENV === 'development' ? error.stack : '-'}`,
             });
             break;
         case "SyntaxError":
         case "PrismaClientValidationError":
             res.status(error.statusCode || 400).json({
-                status: `${process.env.ENVIRONMENT === 'development' ? 'Error de Sintaxis o de Prisma' : 'Error'}`,
+                status: `${process.env.NODE_ENV === 'development' ? 'Error de Sintaxis o de Prisma' : 'Error'}`,
                 message: `Asegúrese de enviar correctamente solo lo necesario.`,
-                details: `${process.env.ENVIRONMENT === 'development' ? error.stack : '-'}`,
+                details: `${process.env.NODE_ENV === 'development' ? error.stack : '-'}`,
             });
             break;
 
         default:
             res.status(error.statusCode || 400).json({
-                status: `${process.env.ENVIRONMENT === 'development' ? 'Error desconocido, leer stack y console().' : 'Error'}`,
+                status: `${process.env.NODE_ENV === 'development' ? 'Error desconocido, leer stack y console().' : 'Error'}`,
                 message: `Error inesperado.`,
-                details: `${process.env.ENVIRONMENT === 'development' ? error.stack : '-'}`,
+                details: `${process.env.NODE_ENV === 'development' ? error.stack : '-'}`,
             });
             break;
     }
