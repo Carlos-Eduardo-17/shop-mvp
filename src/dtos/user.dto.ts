@@ -10,3 +10,18 @@ export interface RegisterUserOutputDTO {
     firstName: string;
     lastName: string;
 }
+
+export interface LoginUserInputDTO {
+    email: string;
+    password: string;
+}
+export interface LoginUserOutputDTO {
+    accessToken: string;
+    refreshToken: string;
+    user: {
+        id: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+    }
+}

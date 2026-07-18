@@ -4,7 +4,7 @@ export const registerRules = [checkExact([
 
     body('email')
         .notEmpty().withMessage('CAMPO REQUERIDO: El correo electrónico es obligatorio').trim()
-        .isEmail().withMessage('El correo electrónico debe contener @ y dominio').normalizeEmail()
+        .isEmail().withMessage('El correo electrónico debe contener @ y dominio').normalizeEmail({ gmail_remove_dots: false })
         .isLength({ max: 64 }).withMessage('El correo electrónico debe tener menos de 64 caracteres.'),
 
     body('password')
@@ -34,3 +34,18 @@ export const registerRules = [checkExact([
         }),
 
 ], { message: 'Solo se permite ingresar: Correo electrónico, Contraseña, Nombre y Apellido.' })];
+
+export const loginRules = [checkExact([
+
+    body('email')
+        .notEmpty().withMessage('CAMPO REQUERIDO: El correo electrónico es obligatorio').trim()
+        .isEmail().withMessage('El correo electrónico debe contener @ y dominio').normalizeEmail({ gmail_remove_dots: false })
+        .isLength({ max: 64 }).withMessage('El correo electrónico debe tener menos de 64 caracteres.'),
+
+    body('password')
+        .notEmpty().withMessage('CAMPO REQUERIDO: La contraseña es obligatoria').trim()
+        .isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }).withMessage('La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial')
+        .isString().withMessage('La contraseña debe ser un texto.')
+        .isLength({ max: 32 }).withMessage('La contraseña debe tener menos de 32 caracteres.')
+
+], { message: 'Solo se permite ingresar: Correo electrónico y Contraseña.' })];

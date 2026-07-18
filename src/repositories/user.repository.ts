@@ -32,4 +32,7 @@ export class UserRepository {
     async findByEmail(email: string): Promise<User | null> {
         return await prisma.user.findUnique({ where: { email } });
     }
+    async saveRefreshToken(userId: string, refreshToken: string): Promise<User> {
+        return await prisma.user.update({ where: { id: userId }, data: { refreshToken } });
+    }
 }
