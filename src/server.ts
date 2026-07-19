@@ -1,8 +1,9 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import userRoute from './routes/user.route.js';
+import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.middleware.js';
+import userRoute from './routes/user.route.js';
 
 export class Server {
 
@@ -21,6 +22,7 @@ export class Server {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(helmet());
+        this.app.use(cookieParser());
     }
 
     routes() {

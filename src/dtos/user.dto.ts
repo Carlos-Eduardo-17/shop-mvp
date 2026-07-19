@@ -25,3 +25,8 @@ export interface LoginUserOutputDTO {
         lastName: string;
     }
 }
+
+export interface refreshSessionOutputDTO {
+    newAccessToken: string;
+    newRefreshToken: string;
+}

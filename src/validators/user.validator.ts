@@ -49,3 +49,7 @@ export const loginRules = [checkExact([
         .isLength({ max: 32 }).withMessage('La contraseña debe tener menos de 32 caracteres.')
 
 ], { message: 'Solo se permite ingresar: Correo electrónico y Contraseña.' })];
+
+export const refreshRules = [checkExact([
+
+], { message: 'No se requieren campos' })];

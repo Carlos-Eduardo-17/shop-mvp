@@ -35,4 +35,10 @@ export class UserRepository {
     async saveRefreshToken(userId: string, refreshToken: string): Promise<User> {
         return await prisma.user.update({ where: { id: userId }, data: { refreshToken } });
     }
+    async findByRefreshToken(refreshToken: string): Promise<User | null> {
+        return await prisma.user.findUnique({ where: { refreshToken } });
+    }
+    async updateRefreshToken(userId: string, refreshToken: string): Promise<User> {
+        return await prisma.user.update({ where: { id: userId }, data: { refreshToken } });
+    }
 }

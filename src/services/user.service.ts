@@ -7,7 +7,7 @@ Servicios de user
 Tipos de return
 - 
 */
-import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO } from '../dtos/user.dto.js'
+import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO } from '../dtos/user.dto.js'
 import { User } from '@prisma/client'; // Importa los tipos del cliente de Prisma
 import { UserRepository } from '../repositories/user.repository.js';
 import { hashWord, compareWords } from '../utils/hash.util.js';
@@ -54,7 +54,34 @@ export class UserService {
 
         // Retornar valores que se almacenarán en
         return { accessToken, refreshToken, user: { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName } }
+    }
 
+    async refreshSession(oldRefreshToken: string): Promise<refreshSessionOutputDTO> {
+
+        // Verificar criptográficamente el token actual, si falla lanzará error
+        jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET as string);
+
+        // Buscar al user por el token, si no retorna user es porque el token es inventado, viejo o ya fue revocado
+        const existingUser: User | null = await this.userRepository.findByRefreshToken(oldRefreshToken);
+        if (!existingUser) { throw new AppError("Sesión inválida o token revocado. Inicie sesión nuevamente.", 401) }
+
+        const newAccessToken = jwt.sign(
+            { userId: existingUser.id, role: existingUser.role },
+            process.env.JWT_ACCESS_SECRET as string,
+            { expiresIn: '15m' }
+        );
+        const newRefreshToken = jwt.sign(
+            { userId: existingUser.id },
+            process.env.JWT_REFRESH_SECRET as string,
+            { expiresIn: '7d' }
+        );
+
+        // Si falla, Prisma lanzará su excepción
+        await this.userRepository.updateRefreshToken(existingUser.id, newRefreshToken);
+
+        return { newAccessToken, newRefreshToken }
     }
 }
+
+
 

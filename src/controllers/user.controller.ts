@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, CookieOptions } from 'express';
 import { UserService } from '../services/user.service.js';
-import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO } from '../dtos/user.dto.js'
+import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO } from '../dtos/user.dto.js'
 
 
 export class UserController {
@@ -42,6 +42,33 @@ export class UserController {
                 message: 'Login exitoso',
                 user: tokenObtained.user
             });
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    refresh = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            const oldRefreshToken = req.cookies?.refreshToken;
+
+            const { newAccessToken, newRefreshToken }: refreshSessionOutputDTO = await this.userService.refreshSession(oldRefreshToken)
+
+            const cookieOptions: CookieOptions = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Solo permitirá HTTPS en producción
+                sameSite: 'strict' as const
+            };
+
+            // Inyección de Access Token (15 minutos)
+            res.cookie('accessToken', newAccessToken, { ...cookieOptions, maxAge: 15 * 60 * 1000 });
+
+            // Inyección de RefreshToken (7 días)
+            res.cookie('refreshToken', newRefreshToken, { ...cookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
+
+            res.status(200).json({
+                message: 'Sesión renovada exitosamente'
+            });
+
         } catch (error) {
             next(error)
         }
