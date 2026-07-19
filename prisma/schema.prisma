@@ -29,7 +29,7 @@ model User {
   firstName      String  @map("first_name")
   lastName       String  @map("last_name")
   role           Role    @default(CLIENT)
-  refreshToken   String? @map("refresh_token")
+  refreshToken   String? @unique @map("refresh_token")
 
   cart   Cart? // 1 Usuario : 1 Carrito
   orders Order[] // 1 Usuario : M Órdenes
