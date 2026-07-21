@@ -7,7 +7,7 @@ Servicios de user
 Tipos de return
 - 
 */
-import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO } from '../dtos/user.dto.js'
+import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO, getProfileUserOutputDTO } from '../dtos/user.dto.js'
 import { User } from '@prisma/client'; // Importa los tipos del cliente de Prisma
 import { UserRepository } from '../repositories/user.repository.js';
 import { hashWord, compareWords } from '../utils/hash.util.js';
@@ -34,8 +34,8 @@ export class UserService {
 
         const user = await this.userRepository.findByEmail(data.email);
 
-        if (!user) { throw new AppError("Cuenta no registrada", 500); }
-        if (!await compareWords(data.password, user.passwordHashed)) { throw new AppError("Credenciales inválidas", 500); }
+        if (!user) { throw new AppError("Cuenta no registrada", 401); }
+        if (!await compareWords(data.password, user.passwordHashed)) { throw new AppError("Credenciales inválidas", 401); }
 
         //Generando tokens
         const accessToken = jwt.sign(
@@ -81,7 +81,13 @@ export class UserService {
 
         return { newAccessToken, newRefreshToken }
     }
+
+    async getProfile(id: string): Promise<getProfileUserOutputDTO> {
+
+        let data = await this.userRepository.find(id);
+        if (!data) { throw new AppError("Perfil de usuario no encontrado", 404) };
+
+        return { email: data.email, firstName: data.firstName, lastName: data.lastName };
+    }
 }
-
-
 

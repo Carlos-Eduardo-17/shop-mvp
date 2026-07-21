@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction, CookieOptions } from 'express';
 import { UserService } from '../services/user.service.js';
-import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO } from '../dtos/user.dto.js'
-
+import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO, getProfileUserOutputDTO } from '../dtos/user.dto.js'
 
 export class UserController {
 
@@ -68,9 +67,23 @@ export class UserController {
             res.status(200).json({
                 message: 'Sesión renovada exitosamente'
             });
-
         } catch (error) {
-            next(error)
+            next(error);
+        }
+    }
+
+    me = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId: string = req.user!.userId;
+
+            const userProfile: getProfileUserOutputDTO = await this.userService.getProfile(userId);
+
+            res.status(201).json({
+                message: `Perfil recuperado con éxito`,
+                data: userProfile
+            })
+        } catch (error) {
+            next(error);
         }
     }
 }

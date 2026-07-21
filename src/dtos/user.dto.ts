@@ -30,3 +30,9 @@ export interface refreshSessionOutputDTO {
     newAccessToken: string;
     newRefreshToken: string;
 }
+
+export interface getProfileUserOutputDTO {
+    email: string;
+    firstName: string;
+    lastName: string;
+}

@@ -50,6 +50,6 @@ export const loginRules = [checkExact([
 
 ], { message: 'Solo se permite ingresar: Correo electrónico y Contraseña.' })];
 
-export const refreshRules = [checkExact([
+export const cleaningRules = [checkExact([
 
 ], { message: 'No se requieren campos' })];
