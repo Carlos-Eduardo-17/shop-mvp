@@ -72,6 +72,33 @@ export class UserController {
         }
     }
 
+    logout = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId: string = req.user!.userId;
+
+            // Limpiar la DB del servidor
+            const result: boolean = await this.userService.logOut(userId);
+
+            // Deben tener las mismas opciones con las que fueron creadas
+            const cookieOptions = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict' as const,
+            };
+
+            // Limpiar las cookies del navegador
+            res.clearCookie('accessToken', cookieOptions);
+            res.clearCookie('refreshToken', cookieOptions);
+
+            res.status(200).json({
+                success: result,
+                message: "Sesión finalizada correctamente."
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     me = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId: string = req.user!.userId;

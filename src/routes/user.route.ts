@@ -19,5 +19,6 @@ router.post("/register", limitRequests(300, 100), registerRules, validateRequest
 router.post("/login", limitRequests(300, 100), loginRules, validateRequest, userController.login);
 router.post("/refresh", limitRequests(300, 100), cleaningRules, validateRequest, userController.refresh);
 router.get("/me", limitRequests(300, 100), cleaningRules, validateRequest, requireAuth, userController.me);
+router.post("/logout", limitRequests(300, 100), cleaningRules, validateRequest, requireAuth, userController.logout);
 
 export default router;

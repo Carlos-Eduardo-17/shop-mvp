@@ -41,4 +41,7 @@ export class UserRepository {
     async updateRefreshToken(userId: string, refreshToken: string): Promise<User> {
         return await prisma.user.update({ where: { id: userId }, data: { refreshToken } });
     }
+    async clearRefreshToken(userId: string): Promise<User> {
+        return await prisma.user.update({ where: { id: userId }, data: { refreshToken: null } });
+    }
 }

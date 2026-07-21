@@ -82,6 +82,11 @@ export class UserService {
         return { newAccessToken, newRefreshToken }
     }
 
+    async logOut(userId: string): Promise<boolean> {
+        if (!await this.userRepository.clearRefreshToken(userId)) { throw new AppError("Usuario no encontrado, actualice la página", 404) }
+        return true;
+    };
+
     async getProfile(id: string): Promise<getProfileUserOutputDTO> {
 
         let data = await this.userRepository.find(id);
