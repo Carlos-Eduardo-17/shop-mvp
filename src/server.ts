@@ -19,7 +19,10 @@ export class Server {
     }
 
     middlewares() {
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: 'http://localhost:5173', // La URL exacta del frontend en Vite
+            credentials: true // Vital para aceptar las cookies HttpOnly
+        }));
         this.app.use(express.json());
         this.app.use(helmet());
         this.app.use(cookieParser());
