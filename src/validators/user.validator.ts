@@ -19,7 +19,7 @@ export const registerRules = [checkExact([
         .isLength({ max: 32 }).withMessage('El nombre debe tener menos de 32 caracteres.')
         .custom((value) => {
             const regex = /^[A-Za-zÀ-ÿ' -]+$/;
-            if (!regex.test(value)) { throw new Error('El nombre no puede contener caracteres especiales ni espacios.'); }
+            if (!regex.test(value)) { throw new Error('El nombre solo puede contener letras.'); }
             return true;
         }),
 
@@ -29,7 +29,7 @@ export const registerRules = [checkExact([
         .isLength({ max: 32 }).withMessage('El apellido debe tener menos de 32 caracteres.')
         .custom((value) => {
             const regex = /^[A-Za-zÀ-ÿ' -]+$/;
-            if (!regex.test(value)) { throw new Error('El apellido no puede contener caracteres especiales ni espacios.'); }
+            if (!regex.test(value)) { throw new Error('El apellido solo puede contener letras.'); }
             return true;
         }),
 
