@@ -39,7 +39,7 @@ export class UserController {
 
             res.status(200).json({
                 message: 'Login exitoso',
-                user: tokenObtained.user
+                data: tokenObtained.user
             });
         } catch (error) {
             next(error)
@@ -77,7 +77,7 @@ export class UserController {
             const userId: string = req.user!.userId;
 
             // Limpiar la DB del servidor
-            const result: boolean = await this.userService.logOut(userId);
+            await this.userService.logOut(userId);
 
             // Deben tener las mismas opciones con las que fueron creadas
             const cookieOptions = {
@@ -91,7 +91,6 @@ export class UserController {
             res.clearCookie('refreshToken', cookieOptions);
 
             res.status(200).json({
-                success: result,
                 message: "Sesión finalizada correctamente."
             });
         } catch (error) {
