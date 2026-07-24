@@ -20,6 +20,13 @@ export function errorHandler(error: any, req: Request, res: Response, next: Next
     console.log(`---------------------------\n\n`);
 
     switch (error.name) {
+        case "ValidationError":
+            res.status(error.statusCode).json({
+                status: `${process.env.NODE_ENV === 'development' ? 'Error de Validación' : 'Error'}`,
+                message: `${error.message}`,
+                details: `${process.env.NODE_ENV === 'development' ? error.stack : '-'}`,
+            });
+            break;
         case "ServiceError":
             res.status(error.statusCode).json({
                 status: `${process.env.NODE_ENV === 'development' ? 'Error de Servicio' : 'Error'}`,
