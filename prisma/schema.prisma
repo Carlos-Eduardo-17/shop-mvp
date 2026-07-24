@@ -18,8 +18,8 @@ datasource db {
  */
 
 enum Role {
+  VISITOR
   CLIENT
-  ADMIN
 }
 
 model User {
@@ -28,7 +28,7 @@ model User {
   passwordHashed String  @map("password_hashed")
   firstName      String  @map("first_name")
   lastName       String  @map("last_name")
-  role           Role    @default(CLIENT)
+  role           Role    @default(VISITOR)
   refreshToken   String? @unique @map("refresh_token")
 
   cart   Cart? // 1 Usuario : 1 Carrito
