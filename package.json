@@ -9,6 +9,9 @@
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "keywords": [],
   "author": "Carlos Medina",
   "license": "ISC",
