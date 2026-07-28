@@ -100,6 +100,16 @@ Permite que el servidor genere y valide tokens **dentro de las cookies httpOnly*
 - **@prisma/adapter-pg** adaptador usado por **@prisma/client** para traducir la orden en formato de Prisma a un formato que el driver nativo de Node.js pueda entender. Tradicionalmente **@prisma/client** usaba su motor pesado de Rust para ejecutar la orden.
 - **pg** es el **driver** que permite que el servidor de Node.js se comunique y ejecute comandos en la DB de PostgreSQL. Es la librería de más bajo nivel. Recibe la orden traducidapor el adaptador, viaja por la red hasta la DB real en Supabase, ejecuta el SQL puro y devuelve los datos por el mismo camino de regreso.
 
+**Aclaración técnica**
+- El schema usa provider = "prisma-client-js" sin la bandera previewFeatures = ["driverAdapters"], que en versiones anteriores de Prisma era obligatoria para usar @prisma/adapter-pg. A partir de Prisma v7 (en este mvp, prisma v.7.8.0), los driver adapters ya no requieren esa bandera porque el motor Rust se eliminó por completo y el adapter es obligatorio por defecto.
+
+- No se necesita previewFeatures = ["driverAdapters"] (que es el comportamiento por defecto en Prisma v7).
+
+
+Noté que Lo busqué para no asumir: [confirmado por búsqueda web]  Así que esto no es un error — el schema y paquetes.md son coherentes entre sí para la versión de Prisma que usan. Buen trabajo de tu parte aquí, aunque no es evidente para alguien que solo haya visto tutoriales de Prisma 5/6.
+
+
+
 ### Scripts para package.json
 - **tsx**<sup>1</sup>
 - **typescript**<sup>2</sup>

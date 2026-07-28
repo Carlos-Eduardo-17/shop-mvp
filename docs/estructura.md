@@ -8,7 +8,7 @@
 **src/dtos**
 - ✅ Define y valida la estructura de los datos de entrada y salida entre capas.
 - ✅ Evita exponer datos irrelevantes y sensibles (password, tokens, etc.).
-- ✅ En este proyecto se usarán dtos personalizados al enviar data de Controller a Service, filtrando y obteniendo solo lo necesario por parte del cliente. Mientras que se usarán PrismaTypes como interfaces de entrada y salida entre Service y Repository.
+- ✅ En este proyecto se usarán dtos personalizados de entrada para enviar data de Controller a Service, filtrando y obteniendo solo lo necesario por parte del cliente, al igual que dtos personalizados de salida para enviar data de Service a Controller, asegurando la entrega de datos puntuales (contrato). Mientras que se usarán PrismaTypes como interfaces de entrada y salida entre Service y Repository.
 - ✅ En este proyecto, será interface.
 - ❌ No contiene lógica de negocio.
 

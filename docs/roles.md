@@ -7,7 +7,7 @@
 - Registra y modifica sus datos personales generales.
 - Puede modificar su contraseña.
 - Agrega productos a su carrito.
-- Puede agregar/quitar unidades de cada producto en el carrito (según stock máx).
+- Puede agregar/quitar unidades de cada producto en el carrito (según stock máx) (validación a nivel de aplicación, no de DB).
 - Puede eliminar productos del carrito
 - Ingresa la dirección de entrega en cada compra (no se guarda una dirección por defecto en el perfil)
 - Puede realizar el checkout de su carrito y generar una orden de compra.
