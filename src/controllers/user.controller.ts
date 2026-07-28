@@ -104,7 +104,7 @@ export class UserController {
 
             const userProfile: getProfileUserOutputDTO = await this.userService.getProfile(userId);
 
-            res.status(201).json({
+            res.status(200).json({
                 message: `Perfil recuperado con éxito`,
                 data: userProfile
             })
