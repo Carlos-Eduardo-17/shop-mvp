@@ -17,18 +17,13 @@ datasource db {
  * ----------------------------------------------------------------
  */
 
-enum Role {
-  VISITOR
-  CLIENT
-}
-
 model User {
   id             String  @id @default(uuid())
   email          String  @unique
   passwordHashed String  @map("password_hashed")
   firstName      String  @map("first_name")
   lastName       String  @map("last_name")
-  role           Role    @default(VISITOR)
+  isAtivated     Boolean @default(false) @map("is_activated")
   refreshToken   String? @unique @map("refresh_token")
 
   cart   Cart? // 1 Usuario : 1 Carrito
@@ -137,6 +132,7 @@ model Order {
 
   user User @relation(fields: [userId], references: [id])
 
+  @@index([userId])
   @@map("orders")
 }
 
@@ -151,5 +147,6 @@ model OrderDetail {
   order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id])
 
+  @@index([orderId])
   @@map("order_details")
 }
