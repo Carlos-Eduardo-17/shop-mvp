@@ -23,7 +23,7 @@ model User {
   passwordHashed String  @map("password_hashed")
   firstName      String  @map("first_name")
   lastName       String  @map("last_name")
-  isAtivated     Boolean @default(false) @map("is_activated")
+  isActivated    Boolean @default(false) @map("is_activated")
   refreshToken   String? @unique @map("refresh_token")
 
   cart   Cart? // 1 Usuario : 1 Carrito
