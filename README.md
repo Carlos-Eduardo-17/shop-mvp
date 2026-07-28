@@ -106,7 +106,7 @@ Resumen rápido — referencia completa (bodies, respuestas y errores) en [`docs
 | GET | `/api/users/me` | Sí | Perfil del usuario autenticado |
 | POST | `/api/users/logout` | Sí | Cierra sesión e invalida el refresh token |
 | GET | `/api/categories` | No | Lista de categorías |
-| GET | `/api/products/:categoryId` | No | Lista de productos (todos o filtrados por categoría) |
+| GET | `/api/products` | No | Lista de productos (todos, o filtrados con `?categoryId=`) |
 | GET | `/api/products/:id` | No | Detalle de un producto |
 
 ---
@@ -120,15 +120,6 @@ Resumen rápido — referencia completa (bodies, respuestas y errores) en [`docs
 - **Rate limiting**: límite de peticiones por IP en todos los endpoints para mitigar fuerza bruta y abuso.
 - **Headers HTTP**: `helmet` aplicado globalmente.
 - **CORS**: restringido al origen del frontend.
-
----
-
-## ⚠️ Limitaciones conocidas
-
-Transparencia sobre el estado actual del código (útil para revisión técnica):
-
-- En `src/routes/product.route.ts`, las rutas `/products/:categoryId` y `/products/:id` comparten el mismo patrón. Express siempre resuelve la primera coincidencia registrada, por lo que **el endpoint de detalle de producto (`getProduct`) queda actualmente inalcanzable**. Solución planificada: separar en `/products` (con `?categoryId=` opcional por query) y `/products/:id`.
-- Algunos controladores de solo lectura (`GET`) devuelven código `201 Created` en vez de `200 OK`. No afecta la funcionalidad, pero se corregirá para seguir la semántica HTTP estándar.
 
 ---
 

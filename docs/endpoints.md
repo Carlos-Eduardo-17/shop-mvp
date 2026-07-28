@@ -109,15 +109,13 @@ Obtiene el perfil del usuario autenticado.
 
 - **Auth**: Sí
 
-**Respuesta `201`**
+**Respuesta `200`**
 ```json
 {
   "message": "Perfil recuperado con éxito",
   "data": { "email": "cliente@correo.com", "firstName": "Ana", "lastName": "Torres" }
 }
 ```
-
-> Nota: este endpoint retorna `201` en el código actual; semánticamente debería ser `200` (ver limitaciones conocidas en el README).
 
 **Errores posibles**: `401` no autenticado · `404` usuario no encontrado.
 
@@ -142,7 +140,7 @@ Lista todas las categorías (usado para menús desplegables de filtro).
 
 - **Auth**: No
 
-**Respuesta `201`**
+**Respuesta `200`**
 ```json
 {
   "message": "Categorías",
@@ -153,18 +151,17 @@ Lista todas las categorías (usado para menús desplegables de filtro).
 }
 ```
 
-> Nota: este endpoint retorna `201` en el código actual; semánticamente debería ser `200`.
-
 ---
 
 ## Productos (`/api/products`)
 
-### `GET /api/products/:categoryId`
-Lista productos. Si `categoryId` es un número mayor a `0`, filtra por esa categoría; en cualquier otro caso, retorna todos los productos.
+### `GET /api/products/`
+Lista productos. Acepta un query param opcional categoryId (numérico, mayor a 0); si se envía, filtra por esa categoría, en caso contrario retorna todos los productos.
 
 - **Auth**: No
+- **Validación**: `categoryId` (query, opcional) debe ser numérico >= 1.
 
-**Respuesta `201`**
+**Respuesta `200`**
 ```json
 {
   "message": "Productos",
@@ -189,9 +186,7 @@ Obtiene el detalle de un producto por su ID.
 - **Auth**: No
 - **Validación**: `id` debe ser numérico.
 
-> ⚠️ **Conocido**: por conflicto de rutas con `/products/:categoryId` (mismo patrón, registrado antes), este endpoint actualmente **no es alcanzable** — toda petición `GET /api/products/:algo` es capturada por `getProducts`. Ver "Limitaciones conocidas" en el README principal.
-
-**Respuesta esperada `201`**
+**Respuesta esperada `200`**
 ```json
 {
   "message": "Producto",
