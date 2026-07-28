@@ -19,7 +19,7 @@ export class ProductService {
 
     async getProduct(id: number): Promise<GetProductOutPutDTO> {
         const product: ProductWithCategoryName | null = await this.productRepository.find(id);
-        if (!product) { throw new AppError("Producto no encontrado", 500); }
+        if (!product) { throw new AppError("Producto no encontrado", 404); }
 
         return { id: product.id, name: product.name, description: product.description, unitPrice: product.unitPrice.toNumber(), unitsInStock: product.unitsInStock, imageUrl: product.imageUrl, categoryId: product.categoryId, categoryName: product.category.name };
     }
@@ -27,7 +27,10 @@ export class ProductService {
     async getProducts(categoryId?: number | undefined): Promise<GetProductOutPutDTO[]> {
         let products: ProductWithCategoryName[]
 
-        if (categoryId != undefined && categoryId > 0) { products = await this.productRepository.findManyByCategory(categoryId); } else {
+        if (categoryId != undefined && categoryId > 0) {
+            products = await this.productRepository.findManyByCategory(categoryId);
+        }
+        else {
             products = await this.productRepository.findMany();
         }
 
