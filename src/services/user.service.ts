@@ -30,16 +30,19 @@ export class UserService {
         return { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName }
     }
 
-    async loginUser(data: LoginUserInputDTO): Promise<LoginUserOutputDTO> {
+    async login(data: LoginUserInputDTO): Promise<LoginUserOutputDTO> {
 
         const user = await this.userRepository.findByEmail(data.email);
 
-        if (!user) { throw new AppError("Cuenta no registrada", 401); }
-        if (!await compareWords(data.password, user.passwordHashed)) { throw new AppError("Credenciales inválidas", 401); }
+        if (!user) { throw new AppError("Email o contraseña incorrectos", 401); }
+        if (!await compareWords(data.password, user.passwordHashed)) { throw new AppError("Email o contraseña incorrectos", 401); }
+        if (!user.isAtivated) {
+            throw new AppError("Cuenta con activación pendiente.", 403);
+        }
 
         //Generando tokens
         const accessToken = jwt.sign(
-            { userId: user.id, role: user.role },
+            { userId: user.id },
             process.env.JWT_ACCESS_SECRET as string,
             { expiresIn: '15m' }
         );
@@ -58,15 +61,20 @@ export class UserService {
 
     async refreshSession(oldRefreshToken: string): Promise<refreshSessionOutputDTO> {
 
-        // Verificar criptográficamente el token actual, si falla lanzará error
-        jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET as string);
+        try {
+            // Verificar criptográficamente el token actual, si falla lanzará error
+            jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET as string);
+        } catch (error) {
+            throw new AppError("Sesión inválida o expirada. Inicie sesión nuevamente.", 401);
+        }
+
 
         // Buscar al user por el token, si no retorna user es porque el token es inventado, viejo o ya fue revocado
         const existingUser: User | null = await this.userRepository.findByRefreshToken(oldRefreshToken);
         if (!existingUser) { throw new AppError("Sesión inválida o token revocado. Inicie sesión nuevamente.", 401) }
 
         const newAccessToken = jwt.sign(
-            { userId: existingUser.id, role: existingUser.role },
+            { userId: existingUser.id },
             process.env.JWT_ACCESS_SECRET as string,
             { expiresIn: '15m' }
         );
@@ -82,8 +90,14 @@ export class UserService {
         return { newAccessToken, newRefreshToken }
     }
 
-    async logOut(userId: string): Promise<boolean> {
-        if (!await this.userRepository.clearRefreshToken(userId)) { throw new AppError("Usuario no encontrado, actualice la página", 404) }
+    async logout(userId: string): Promise<boolean> {
+        try {
+            // Prisma (update) lanza su propia excepción si no encuentra el registro
+            await this.userRepository.clearRefreshToken(userId);
+        } catch (error) {
+            throw new AppError("Usuario no encontrado, actualice la página", 404);
+        }
+
         return true;
     };
 

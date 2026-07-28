@@ -6,7 +6,6 @@ declare global {
             // Inyectamos el usuario con los datos que guardaste en el payload del token
             user?: {
                 userId: string;
-                role: string;
             };
         }
     }

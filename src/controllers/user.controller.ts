@@ -22,7 +22,7 @@ export class UserController {
     login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const data: LoginUserInputDTO = req.body;
-            const tokenObtained: LoginUserOutputDTO = await this.userService.loginUser(data);
+            const tokenObtained: LoginUserOutputDTO = await this.userService.login(data);
 
             // Configuración estricta de seguridad para las cookies
             const cookieOptions: CookieOptions = {
@@ -77,7 +77,7 @@ export class UserController {
             const userId: string = req.user!.userId;
 
             // Limpiar la DB del servidor
-            await this.userService.logOut(userId);
+            await this.userService.logout(userId);
 
             // Deben tener las mismas opciones con las que fueron creadas
             const cookieOptions = {
