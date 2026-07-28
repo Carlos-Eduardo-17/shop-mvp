@@ -8,6 +8,8 @@
 - Tiempo de vida de tokens:
     - **Access token:** 15 minutos
     - **Refresh token:** 7 días
+- **Activación de cuentas:** toda cuenta nueva se crea con `isActivated = false`. El desarrollador la activa manualmente en Supabase; hasta entonces, el login queda bloqueado (`403`).
+- **Eliminación de cuentas:** no es autoservicio. Solo el desarrollador puede eliminar una cuenta, directamente en Supabase.
 
 ## Reglas puntuales del negocio
 **Registro de usuario**

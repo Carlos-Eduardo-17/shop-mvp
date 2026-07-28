@@ -3,7 +3,8 @@
 - Login con email y contraseña
 - Logout (invalidación de cookies/tokens)
 - Refresh token rotation (access token de corta duración + refresh token de larga duración)
-- Edición y eliminación de cuenta de usuario (autenticado)
+- Edición de cuenta de usuario (autenticado)
+- Activación manual de cuentas (el desarrollador activa cada cuenta directamente en Supabase; sin esto, el login queda bloqueado)
 
 ## Funcionalidades secundarias
 - Rate limiting en intentos de login fallidos (express-rate-limit)
@@ -17,6 +18,7 @@
 - Colocación de temporizador de 5 minutos en el frontend para que el usuario vea cuánto tiempo le queda para pagar.
 
 ## Funcionalidades fuera del alcance
+- Eliminación de cuenta por parte del propio usuario (solo el desarrollador puede eliminar cuentas, directamente en Supabase)
 - Gestión de usuarios (CRUD) por parte del administrador
 - Roles y permisos (RBAC/ABAC)
 - Panel de administración
