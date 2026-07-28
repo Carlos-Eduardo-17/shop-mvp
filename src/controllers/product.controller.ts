@@ -10,7 +10,7 @@ export class CategoryController {
         try {
             const categories: GetCategoriesOutPutDTO[] = await this.categoryService.getCategories();
 
-            res.status(201).json({
+            res.status(200).json({
                 message: `Categorías`,
                 data: categories
             })

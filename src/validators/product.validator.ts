@@ -1,4 +1,4 @@
-import { param, checkExact } from 'express-validator';
+import { param, query, checkExact } from 'express-validator';
 
 // NOTA: 
 // - Usar isUUID() si Prisma generó ID como String/UUID
@@ -15,3 +15,14 @@ export const getByIdRules = [checkExact([
         .isInt().withMessage('El ID debe ser numérico')
 
 ], { message: 'Solo se permite enviar el ID a través de la URL.' })];
+
+/*
+categoryId es opcional: sin él se listan todos los productos, con él se filtra por categoría.
+*/
+export const getProductsRules = [checkExact([
+
+    query('categoryId')
+        .optional().trim()
+        .isInt({ min: 1 }).withMessage('El categoryId debe ser numérico')
+
+], { message: 'Solo se permite enviar categoryId como query param.' })];
