@@ -256,5 +256,9 @@
 
         Seeding completado con éxito.
 
-
-
+## 19. Creación de módulo de Carrito de Compras
+- En estos servicios se aplicará:
+    - Validación de existencia y stock
+    - Límite de 5 unidades de cada producto en el Carrito.
+    - Cálculo de precios directamente en TS.
+    
