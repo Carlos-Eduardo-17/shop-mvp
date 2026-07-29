@@ -10,27 +10,23 @@ export interface AddItemOutputDTO {
     productId: number;
 }
 
-export interface GetCarOutputDTO {
-    // TODO: DEFINIR CORRECTAMENTE
+export interface CartItemProductOutputDTO {
+    id: number;
+    name: string;
+    unitPrice: number;
+    imageUrl: string | null;
+}
+export interface CartItemOutputDTO {
+    id: number;
+    quantity: number;
+    productId: number;
+    product: CartItemProductOutputDTO;
+    subtotal: number;
+}
+export interface GetCartOutputDTO {
     id: number | null;
     userId: string;
-    item: {
-        product: {
-            name: string;
-            id: number;
-            createdAt: Date;
-            updatedAt: Date;
-            description: string;
-            unitPrice: number;
-            unitsInStock: number;
-            imageUrl: string | null;
-            categoryId: number;
-        }
-        id: number;
-        quantity: number;
-        cartId: number;
-        productId: number;
-    }[];
+    items: CartItemOutputDTO[];
     total: number;
 }
 

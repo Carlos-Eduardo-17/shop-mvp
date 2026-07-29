@@ -3,7 +3,7 @@ import { CartRepository, CartItemRepository, CartWithProducts } from '../reposit
 import { ProductRepository, ProductWithCategoryName } from "../repositories/product.repository.js";
 
 import { AppError } from "../utils/appError.util.js";
-import { AddItemInputDTO, AddItemOutputDTO, RemoveItemInputDTO, GetCarOutputDTO } from "../dtos/cart.dto.js";
+import { AddItemInputDTO, AddItemOutputDTO, RemoveItemInputDTO, GetCartOutputDTO } from "../dtos/cart.dto.js";
 
 export class CartService {
 
@@ -45,17 +45,33 @@ export class CartService {
     }
 
     // Obtener el carrito activo del usuario y calcular el total
-    async getCart(userId: string) {
+    async getCart(userId: string): Promise<GetCartOutputDTO> {
         let cart: CartWithProducts | null = await this.cartRepository.findwithProductByUserId(userId);
-        if (!cart) return { id: null, userId: userId, item: [], total: 0 };
+        if (!cart) return { id: null, userId: userId, items: [], total: 0 };
 
-        // Calcular precios en TS
-        const total: number = cart.items.reduce((acumulado, item) => {
-            // Nota: Asumimos que el modelo Product tiene un campo 'price' (usualmente de tipo Decimal o Float)
-            return acumulado + (Number(item.product.unitPrice) * item.quantity);
-        }, 0);
+        // Mapear items al DTO y calcular el subtotal de cada uno
+        const items = cart.items.map((item) => {
+            // Nota: unitPrice puede venir como Decimal de Prisma, por eso se castea con Number()
+            const unitPrice: number = Number(item.product.unitPrice);
+            const subtotal: number = unitPrice * item.quantity;
+            return {
+                id: item.id,
+                quantity: item.quantity,
+                productId: item.productId,
+                product: {
+                    id: item.product.id,
+                    name: item.product.name,
+                    unitPrice,
+                    imageUrl: item.product.imageUrl,
+                },
+                subtotal,
+            };
+        });
 
-        return { id: cart.id, userId: cart.userId, item: cart.items, total: total }
+        // Calcular el total sumando los subtotales ya calculados
+        const total: number = items.reduce((acumulado, item) => acumulado + item.subtotal, 0);
+
+        return { id: cart.id, userId: cart.userId, items, total };
     }
 
     // Eliminar item especifico del carrito
