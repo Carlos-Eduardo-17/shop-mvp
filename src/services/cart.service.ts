@@ -50,7 +50,7 @@ export class CartService {
         if (!cart) return { id: null, userId: userId, items: [], total: 0 };
 
         // Mapear items al DTO y calcular el subtotal de cada uno
-        const items = cart.items.map((item) => {
+        const items :GetCartOutputDTO['items']= cart.items.map((item: CartWithProducts['items'][number]) => {
             // Nota: unitPrice puede venir como Decimal de Prisma, por eso se castea con Number()
             const unitPrice: number = Number(item.product.unitPrice);
             const subtotal: number = unitPrice * item.quantity;
@@ -69,7 +69,7 @@ export class CartService {
         });
 
         // Calcular el total sumando los subtotales ya calculados
-        const total: number = items.reduce((acumulado, item) => acumulado + item.subtotal, 0);
+        const total: number = items.reduce((acumulado:number, item: (typeof items)[number]) => acumulado + item.subtotal, 0);
 
         return { id: cart.id, userId: cart.userId, items, total };
     }

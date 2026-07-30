@@ -6,6 +6,7 @@ import { errorHandler } from './middlewares/errorHandler.middleware.js';
 import userRoute from './routes/user.route.js';
 import categoryRoute from './routes/category.routes.js';
 import productRoute from './routes/product.route.js';
+import cartRoute from './routes/cart.route.js';
 
 export class Server {
 
@@ -37,6 +38,7 @@ export class Server {
         this.app.use("/api/users", userRoute);
         this.app.use("/api/categories", categoryRoute);
         this.app.use("/api/products", productRoute);
+        this.app.use("/api/carts", cartRoute);
     }
 
     listen() {
