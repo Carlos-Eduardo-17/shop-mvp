@@ -36,7 +36,7 @@ export class UserService {
 
         if (!user) { throw new AppError("Email o contraseña incorrectos", 401); }
         if (!await compareWords(data.password, user.passwordHashed)) { throw new AppError("Email o contraseña incorrectos", 401); }
-        if (!user.isAtivated) {
+        if (!user.isActivated) {
             throw new AppError("Cuenta con activación pendiente.", 403);
         }
 
