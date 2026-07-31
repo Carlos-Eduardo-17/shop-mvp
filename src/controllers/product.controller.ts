@@ -26,7 +26,11 @@ export class ProductController {
 
     getProducts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const categoryId: number = Number(req.params["categoryId"]);
+
+
+            
+
+            const categoryId: number = Number(req.query["categoryId"]);
 
             const products: GetProductOutPutDTO[] = await this.productService.getProducts(categoryId);
 
