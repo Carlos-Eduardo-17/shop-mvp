@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 
 export function errorHandler(error: any, req: Request, res: Response, next: NextFunction): void {
 
-    console.log(`\n\n---------------------------`);
+    /*console.log(`\n\n---------------------------`);
     console.log(`------| ERRROR PURO |------`);
     console.log(`---------------------------`);
     console.log((error));
@@ -17,7 +17,7 @@ export function errorHandler(error: any, req: Request, res: Response, next: Next
     console.log("body: ", error.body);
     console.log("expose: ", error.expose);
     console.log("clientVersion: ", error.clientVersion);
-    console.log(`---------------------------\n\n`);
+    console.log(`---------------------------\n\n`);*/
 
     switch (error.name) {
         case "ValidationError":
