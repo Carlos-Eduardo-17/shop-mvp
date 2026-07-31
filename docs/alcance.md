@@ -1,9 +1,8 @@
 ## Funcionalidades principales
 - Registro con email y contraseña.
-- Login con email y contraseña
+- Login con email y contraseña.
 - Logout (invalidación de cookies/tokens)
 - Refresh token rotation (access token de corta duración + refresh token de larga duración)
-- Edición de cuenta de usuario (autenticado)
 - Activación manual de cuentas (el desarrollador activa cada cuenta directamente en Supabase; sin esto, el login queda bloqueado)
 
 ## Funcionalidades secundarias
@@ -11,7 +10,7 @@
 - Validación de inputs en todos los endpoints (express-validator)
 - Headers de seguridad HTTP (helmet)
 - Frontend básico HTML/CSS para demostrar el flujo visualmente (para portfolio)
-- Flujo de vida de orden debe ser simplemente: PENDING -> PAID (usando tu endpoint manual)
+- Flujo de vida de orden debe ser simplemente: PENDING -> PAID (el desarrollador cambia el estado de cada orden directamente en Supabase)
 
 ## Funcionalidades fuera del alcance
 - Eliminación de cuenta por parte del propio usuario (solo el desarrollador puede eliminar cuentas, directamente en Supabase)

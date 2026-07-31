@@ -15,8 +15,8 @@ Este MVP está **funcional pero en construcción activa**. A la fecha:
 | Registro / Login / Logout / Refresh Token | ✅ Implementado |
 | Perfil de usuario autenticado | ✅ Implementado |
 | Catálogo de productos y categorías (lectura) | ✅ Implementado |
-| Carrito de compras | 🚧 Modelado en la base de datos, pendiente de implementar en la API |
-| Checkout / Órdenes | 🚧 Modelado en la base de datos, pendiente de implementar en la API |
+| Carrito de compras | ✅ Implementado |
+| Checkout / Órdenes | ✅ Implementado |
 
 El detalle de qué entra y qué no en esta versión está en [`docs/alcance.md`](./docs/alcance.md).
 
