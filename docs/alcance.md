@@ -11,11 +11,7 @@
 - Validación de inputs en todos los endpoints (express-validator)
 - Headers de seguridad HTTP (helmet)
 - Frontend básico HTML/CSS para demostrar el flujo visualmente (para portfolio)
-- Validación de 5 minutos solo cuando el usuario intente pagar (en tiempo de ejecución), no con un proceso en segundo plano.
 - Flujo de vida de orden debe ser simplemente: PENDING -> PAID (usando tu endpoint manual)
-
-## Funcionalidades para futuras versiones
-- Colocación de temporizador de 5 minutos en el frontend para que el usuario vea cuánto tiempo le queda para pagar.
 
 ## Funcionalidades fuera del alcance
 - Eliminación de cuenta por parte del propio usuario (solo el desarrollador puede eliminar cuentas, directamente en Supabase)
