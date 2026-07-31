@@ -15,6 +15,9 @@ const userController = new UserController(new UserService(new UserRepository()))
 const router = Router();
 
 // 1ro revisará el límite de request, 2do revisará que los campos cumplan con las reglas de validación, 3ro revisará si pasaron correctamente las reglas de validación
-router.get("/me", limitRequests(300, 100), cleaningRules, validateRequest, requireAuth, userController.me);
+router.post("/register", limitRequests(300, 100), registerRules, validateRequest, userController.register); //300,3
+router.post("/login", limitRequests(300, 100), loginRules, validateRequest, userController.login);
+router.post("/refresh", limitRequests(300, 100), cleaningRules, validateRequest, userController.refresh);
+router.post("/logout", limitRequests(300, 100), cleaningRules, validateRequest, requireAuth, userController.logout);
 
 export default router;
