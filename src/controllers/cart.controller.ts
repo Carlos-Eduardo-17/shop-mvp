@@ -37,7 +37,8 @@ export class CartController {
     removeItem = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId: string = req.user!.userId;
-            const cartItemId: number = req.body.cartItemId;
+
+            const cartItemId: number = Number(req.query["cartItemId"]);
 
             await this.cartService.removeItem({ userId, cartItemId });
 

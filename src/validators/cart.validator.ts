@@ -13,7 +13,7 @@ export const addItemRules = [checkExact([
         .toInt(),
 
 ], { message: 'Solo se permite ingresar: productId y quantity.' })];
-
+/*
 export const removeItemRules = [checkExact([
 
     body('cartItemId')
@@ -21,4 +21,4 @@ export const removeItemRules = [checkExact([
         .isInt({ min: 1 }).withMessage('El cartItemId debe ser un número entero positivo')
         .toInt(),
 
-], { message: 'Solo se permite ingresar: cartItemId.' })];
+], { message: 'Solo se permite ingresar: cartItemId.' })];*/
