@@ -4,8 +4,7 @@ services:
     runtime: node
     plan: free
     region: oregon
-    buildCommand: npx pnpm@11.11.0 install --frozen-lockfile && npx pnpm run build
-    preDeployCommand: npx prisma migrate deploy
+    buildCommand: npx pnpm@11.11.0 install --frozen-lockfile && npx pnpm run build && npx prisma migrate deploy
     startCommand: node dist/index.js
     healthCheckPath: /api/health
     envVars:
