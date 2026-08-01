@@ -6,7 +6,7 @@ export class CategoryController {
 
     constructor(private categoryService: CategoryService) { }
 
-    getCategories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    getCategories = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const categories: GetCategoriesOutPutDTO[] = await this.categoryService.getCategories();
 

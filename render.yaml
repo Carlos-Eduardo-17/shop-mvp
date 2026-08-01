@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: shop-mvp-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npx pnpm@11.11.0 install --frozen-lockfile && npx pnpm run build
+    preDeployCommand: npx prisma migrate deploy
+    startCommand: node dist/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false   # Pega aquí tu connection string de Supabase, en el dashboard de Render
+      - key: JWT_ACCESS_SECRET
+        sync: false   # Genera un secreto largo y aleatorio, pégalo en el dashboard
+      - key: JWT_REFRESH_SECRET
+        sync: false   # Genera otro secreto distinto al anterior
+      - key: FRONTEND_URL
+        sync: false   # URL de tu app en Vercel, ej: https://shop-mvp-front.vercel.app

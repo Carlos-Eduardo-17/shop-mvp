@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 //throw new Error("ServiceError\nEmail usado por otra cuenta.\nuser.service.ts").stack;
 
-export function errorHandler(error: any, req: Request, res: Response, next: NextFunction): void {
+export function errorHandler(error: any, _req: Request, res: Response, _next: NextFunction): void {
 
     /*console.log(`\n\n---------------------------`);
     console.log(`------| ERRROR PURO |------`);

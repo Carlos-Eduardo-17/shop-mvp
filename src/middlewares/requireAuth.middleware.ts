@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/appError.util.js";
 import jwt from 'jsonwebtoken';
 
-export const requireAuth = (req: Request, res: Response, next: NextFunction): void => {
+export const requireAuth = (req: Request, _res: Response, next: NextFunction): void => {
 
     const accessToken = req.cookies?.accessToken;
     if (!accessToken) { throw new AppError("No está autenticado, inicie sesión", 401); }

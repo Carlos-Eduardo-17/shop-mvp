@@ -7,7 +7,7 @@ import { UserRepository } from "../repositories/user.repository.js";
 import { limitRequests } from "../middlewares/rateLimit.middleware.js";
 import { validateRequest } from '../middlewares/validator.middleware.js';
 
-import { loginRules, cleaningRules, registerRules } from '../validators/user.validator.js'
+import { cleaningRules } from '../validators/user.validator.js'
 import { requireAuth } from "../middlewares/requireAuth.middleware.js";
 
 
