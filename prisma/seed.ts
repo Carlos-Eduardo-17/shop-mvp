@@ -43,7 +43,7 @@ async function main() {
             description: 'Amigurumi tejido a mano con hilo de algodón hipoalergénico. Ideal para bebés.',
             unitPrice: 45.00,
             unitsInStock: 5,
-            imageUrl: 'https://placehold.co/400x400/FFB6C1/31343C?text=Osito',
+            imageUrl: 'https://ufamtwtqiyhmxolkwall.supabase.co/storage/v1/object/public/products/osito.png',
             categoryId: catAmigurumis.id,
         },
         {
@@ -51,7 +51,7 @@ async function main() {
             description: 'Tierna conejita con vestido floral. 25cm de alto.',
             unitPrice: 55.00,
             unitsInStock: 3,
-            imageUrl: 'https://placehold.co/400x400/FFD700/31343C?text=Conejita',
+            imageUrl: 'https://ufamtwtqiyhmxolkwall.supabase.co/storage/v1/object/public/products/conejita.png',
             categoryId: catAmigurumis.id,
         },
         {
@@ -59,7 +59,7 @@ async function main() {
             description: 'Pulpito emocional tejido. Dos caras, dos colores.',
             unitPrice: 30.00,
             unitsInStock: 10,
-            imageUrl: 'https://placehold.co/400x400/87CEFA/31343C?text=Pulpito',
+            imageUrl: 'https://ufamtwtqiyhmxolkwall.supabase.co/storage/v1/object/public/products/pulpito.png',
             categoryId: catAmigurumis.id,
         },
         {
@@ -67,7 +67,7 @@ async function main() {
             description: 'Pack de 6 hilos colores pastel (50g c/u).',
             unitPrice: 25.00,
             unitsInStock: 15,
-            imageUrl: 'https://placehold.co/400x400/E6E6FA/31343C?text=Hilos',
+            imageUrl: 'https://ufamtwtqiyhmxolkwall.supabase.co/storage/v1/object/public/products/hilos.png',
             categoryId: catMateriales.id,
         }
     ];
