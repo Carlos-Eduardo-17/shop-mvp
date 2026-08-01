@@ -36,9 +36,10 @@ export class UserService {
 
         if (!user) { throw new AppError("Email o contraseña incorrectos", 401); }
         if (!await compareWords(data.password, user.passwordHashed)) { throw new AppError("Email o contraseña incorrectos", 401); }
-        if (!user.isActivated) {
-            throw new AppError("Cuenta con activación pendiente.", 403);
-        }
+        
+        // TODO: TEMPORALMENTE DESACTIVADO EL CHECK DE ACTIVACIÓN DE CUENTA, SE ASUME QUE TODAS LAS CUENTAS ESTÁN ACTIVADAS
+        //if (!user.isActivated) {   throw new AppError("Cuenta con activación pendiente.", 403);  }
+
 
         //Generando tokens
         const accessToken = jwt.sign(
