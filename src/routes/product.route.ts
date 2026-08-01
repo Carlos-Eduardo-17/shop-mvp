@@ -9,7 +9,7 @@ import { validateRequest } from "../middlewares/validator.middleware.js";
 const productController = new ProductController(new ProductService(new ProductRepository()));
 const router = Router();
 
-router.get("/", limitRequests(300, 100), productController.getProducts); // ?categoryId=
-router.get("/:id", limitRequests(300, 100), getByIdRules, validateRequest, productController.getProduct);
+router.get("/", limitRequests(300, 150), productController.getProducts); // ?categoryId=
+router.get("/:id", limitRequests(300, 150), getByIdRules, validateRequest, productController.getProduct);
 
 export default router;

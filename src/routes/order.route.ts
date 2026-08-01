@@ -16,7 +16,7 @@ const orderController = new OrderController(new OrderService(new OrderRepository
 const router = Router();
 
 // 1ro revisará el límite de request, 2do revisará autenticación, 3ro revisará las reglas de validación, 4to revisará si pasaron correctamente las reglas
-router.post("/", limitRequests(300, 100), requireAuth, createOrderRules, validateRequest, orderController.createOrder);
-router.get("/", limitRequests(300, 100), requireAuth, cleaningRules, validateRequest, orderController.getOrders);
+router.post("/", limitRequests(300, 5), requireAuth, createOrderRules, validateRequest, orderController.createOrder);
+router.get("/", limitRequests(300, 30), requireAuth, cleaningRules, validateRequest, orderController.getOrders);
 
 export default router;
