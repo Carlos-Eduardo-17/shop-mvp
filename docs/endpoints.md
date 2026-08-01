@@ -206,7 +206,7 @@ Obtiene el detalle de un producto por su ID.
 
 ## Carrito (`/api/carts`)
 
-### `POST /api/carts/cart/items`
+### `POST /api/cart/items`
 Agrega un producto al carrito del usuario autenticado, o actualiza su cantidad si ya existe en el carrito. Si el usuario no tiene carrito aún, se crea automáticamente.
 
 - **Auth**: Sí
@@ -236,7 +236,7 @@ Agrega un producto al carrito del usuario autenticado, o actualiza su cantidad s
 
 ---
 
-### `GET /api/carts/cart`
+### `GET /api/cart`
 Obtiene el carrito activo del usuario autenticado, con el detalle de cada producto y el total calculado. Si el usuario no tiene carrito, devuelve uno vacío.
 
 - **Auth**: Sí
@@ -266,15 +266,12 @@ Obtiene el carrito activo del usuario autenticado, con el detalle de cada produc
 
 ---
 
-### `DELETE /api/carts/cart/items`
-Elimina un ítem específico del carrito del usuario autenticado.
+### `DELETE /api/cart/items`
+Elimina un ítem específico (?cartItemId=6) del carrito del usuario autenticado.
 
 - **Auth**: Sí
 
-**Body**
-```json
-{ "cartItemId": 10 }
-```
+- **Validación**: `cartItemId` (query, opcional) debe ser numérico >= 1.
 
 **Reglas de validación**
 - `cartItemId`: obligatorio, entero positivo (≥ 1).
