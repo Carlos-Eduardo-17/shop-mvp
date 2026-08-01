@@ -2,6 +2,15 @@ import { Request, Response, NextFunction, CookieOptions } from 'express';
 import { UserService } from '../services/user.service.js';
 import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUserOutputDTO, refreshSessionOutputDTO, getProfileUserOutputDTO } from '../dtos/user.dto.js'
 
+// Backend (Render) y frontend (Vercel) viven en dominios distintos, así que las
+// cookies deben viajar cross-site. Eso exige sameSite: 'none' + secure: true en
+// producción. En local (mismo host:puerto distinto de Vite) usamos 'lax'.
+const getCookieOptions = (): CookieOptions => ({
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // HTTPS obligatorio en producción (requisito de sameSite: 'none')
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+});
+
 export class UserController {
 
     constructor(private userService: UserService) { }
@@ -24,12 +33,8 @@ export class UserController {
             const data: LoginUserInputDTO = req.body;
             const tokenObtained: LoginUserOutputDTO = await this.userService.login(data);
 
-            // Configuración estricta de seguridad para las cookies
-            const cookieOptions: CookieOptions = {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // Solo permitirá HTTPS en producción
-                sameSite: 'strict' as const
-            };
+            // Configuración de seguridad para las cookies (ver getCookieOptions arriba)
+            const cookieOptions: CookieOptions = getCookieOptions();
 
             // Inyección de Access Token (15 minutos)
             res.cookie('accessToken', tokenObtained.accessToken, { ...cookieOptions, maxAge: 15 * 60 * 1000 });
@@ -52,11 +57,7 @@ export class UserController {
 
             const { newAccessToken, newRefreshToken }: refreshSessionOutputDTO = await this.userService.refreshSession(oldRefreshToken)
 
-            const cookieOptions: CookieOptions = {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // Solo permitirá HTTPS en producción
-                sameSite: 'strict' as const
-            };
+            const cookieOptions: CookieOptions = getCookieOptions();
 
             // Inyección de Access Token (15 minutos)
             res.cookie('accessToken', newAccessToken, { ...cookieOptions, maxAge: 15 * 60 * 1000 });
@@ -80,11 +81,7 @@ export class UserController {
             await this.userService.logout(userId);
 
             // Deben tener las mismas opciones con las que fueron creadas
-            const cookieOptions = {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict' as const,
-            };
+            const cookieOptions: CookieOptions = getCookieOptions();
 
             // Limpiar las cookies del navegador
             res.clearCookie('accessToken', cookieOptions);

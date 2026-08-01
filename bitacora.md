@@ -261,4 +261,24 @@
     - Validación de existencia y stock
     - Límite de 5 unidades de cada producto en el Carrito.
     - Cálculo de precios directamente en TS.
-    
+
+  .
+  .
+  .
+
+## Preparación para subirlo a Render
+- Crear env.example para mostrar solo los nombres de variables de entorno con data de ejemplo.
+- En user.controller, agregar al inicio del archivo:
+
+        // Backend (Render) y frontend (Vercel) viven en dominios distintos, así que las
+        // cookies deben viajar cross-site. Eso exige sameSite: 'none' + secure: true en
+        // producción. En local (mismo host:puerto distinto de Vite) usamos 'lax'.
+        const getCookieOptions = (): CookieOptions => ({
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // HTTPS obligatorio en producción (requisito de sameSite: 'none')
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        });
+- En package.json, establecer el script "build": "prisma generate && rimraf dist && tsc"
+- Generar migraciones de Prisma localmente
+
+        npx prisma migrate dev --name init

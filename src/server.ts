@@ -25,7 +25,7 @@ export class Server {
 
     middlewares() {
         this.app.use(cors({
-            origin: 'http://localhost:5173', // La URL exacta del frontend en Vite
+            origin: process.env.FRONTEND_URL || 'http://localhost:5173', // URL del frontend (Vite en local, Vercel en producción)
             credentials: true // Vital para aceptar las cookies HttpOnly
         }));
         this.app.use(express.json());
