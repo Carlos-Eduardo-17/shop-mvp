@@ -30,7 +30,7 @@ export class ProductController {
 
             const products: GetProductOutPutDTO[] = await this.productService.getProducts(categoryId);
 
-            res.status(201).json({
+            res.status(200).json({
                 message: `Productos`,
                 data: products
             })
@@ -44,7 +44,7 @@ export class ProductController {
             const id: number = Number(req.params["id"]);
             const product: GetProductOutPutDTO = await this.productService.getProduct(id);
 
-            res.status(201).json({
+            res.status(200).json({
                 message: `Producto`,
                 data: product
             })
