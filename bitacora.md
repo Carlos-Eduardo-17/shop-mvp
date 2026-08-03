@@ -31,6 +31,9 @@
     - Clonar repositorio remoto a local:
 
             git clone https://github.com/Carlos-Eduardo-17/shop-mvp.git
+        
+        Se creará automáticamente: .gitignore, .git/ (oculto)
+
     - Ingresar a la carpeta y verificar repositorios remotos asociados al repositorio local:
             
             cd shop-mvp
@@ -49,7 +52,7 @@
 
 ## 3. Modificación de .gitignore
 **Ignorados predeterminadamente:**
-- .env    → Contiene credenciales y contraseñas críticas del sistema. En su lugar, 
+- .env    → Contiene credenciales y contraseñas críticas del sistema. En su lugar, crear y permitir .env.example con valores de ejemplo.
 - node_modules/   → Innecesario y pesado. Se generar a partir de package.json
 
 **Persistencia temporal:**
@@ -57,7 +60,7 @@
 - src/ → Contiene el código fuente en formato TS. No ignorarlo mientras se esté en la etapa de desarrollo.
 
 **Ignorados personalizados:**
-- /pasos.md → Bitácora interna del desarrollador. Innecesario para público en general.
+- bitacora.md → Bitácora interna del desarrollador. Innecesario para público en general.
 
 ## 4. Inicialización de proyecto PNPM
 - Establecer la versión de PNPM e inicializar proyecto.
@@ -282,3 +285,11 @@
 - Generar migraciones de Prisma localmente
 
         npx prisma migrate dev --name init
+## Corrección: limpiar cookies cuando el refresh falla
+Detectado durante la implementación del refreshToken automático en el frontend (`shop-mvp-front`): cuando `POST /auth/refresh` fallaba (refreshToken vencido, revocado o inválido), el `catch` de `refresh` en `user.controller.ts` solo hacía `next(error)` — nunca limpiaba las cookies. Quedaba una cookie de `refreshToken` inservible en el navegador hasta que expiraba sola a los 7 días. No era un problema de seguridad (sigue HttpOnly e inválida en el servidor), pero sí una llamada de más antes de fallar de nuevo cada vez.
+
+- En el `catch` de `refresh` se agregó el mismo patrón que ya usaba `logout`: `res.clearCookie('accessToken', cookieOptions)` y `res.clearCookie('refreshToken', cookieOptions)`, con las mismas `cookieOptions` (`getCookieOptions()`) con las que se crearon, antes de llamar a `next(error)`.
+- No se pudo correr un build completo en el entorno donde se hizo el cambio porque la red bloqueaba la descarga de los binarios de Prisma (`prisma generate` fallaba). Se comparó la salida de `tsc --noEmit` antes/después con `diff` en vez de eso: cero errores nuevos introducidos por el cambio.
+- Pendiente de probar en runtime real (con base de datos): forzar un refresh fallido y confirmar en el navegador que ambas cookies desaparecen.
+
+Véase: [user.controller.ts](src/controllers/user.controller.ts).
