@@ -69,6 +69,14 @@ export class UserController {
                 message: 'Sesión renovada exitosamente'
             });
         } catch (error) {
+            // El refresh falló (refreshToken inválido, revocado o expirado):
+            // no tiene sentido dejar esa cookie en el navegador esperando a
+            // que expire sola a los 7 días. Se limpia igual que en logout,
+            // con las mismas opciones con las que fue creada.
+            const cookieOptions: CookieOptions = getCookieOptions();
+            res.clearCookie('accessToken', cookieOptions);
+            res.clearCookie('refreshToken', cookieOptions);
+
             next(error);
         }
     }
