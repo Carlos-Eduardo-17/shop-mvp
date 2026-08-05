@@ -6,7 +6,9 @@ async function main() {
     try {
         // Probar la conexión a Supabase  con una consulta ligera
         await prisma.$queryRaw`SELECT 1`;
+        
         console.log("✅ Database connected.");
+
         // Si la DB responde, levantar el servidor Express
         const server = new Server()
         server.listen();

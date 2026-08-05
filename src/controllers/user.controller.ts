@@ -7,7 +7,7 @@ import { RegisterUserInputDTO, RegisterUserOutputDTO, LoginUserInputDTO, LoginUs
 // producción. En local (mismo host:puerto distinto de Vite) usamos 'lax'.
 const getCookieOptions = (): CookieOptions => ({
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // HTTPS obligatorio en producción (requisito de sameSite: 'none')
+    secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 });
 

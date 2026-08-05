@@ -1,3 +1,4 @@
+// Usado para manejar errores de validación en los servicios
 export class AppError extends Error {
     public readonly statusCode: number;
 
@@ -11,7 +12,7 @@ export class AppError extends Error {
     }
 }
 
-
+// Usado para errores de validación en los  validadores de express-validator
 export class ValidationError extends Error {
     public readonly statusCode: number;
 

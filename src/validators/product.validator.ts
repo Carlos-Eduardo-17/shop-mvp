@@ -17,7 +17,7 @@ export const getByIdRules = [checkExact([
 ], { message: 'Solo se permite enviar el ID a través de la URL.' })];
 
 /*
-categoryId es opcional: sin él se listan todos los productos, con él se filtra por categoría.
+categoryId es opcional: sin él se listan todos los productos, con él se filtran por categoría.
 */
 export const getProductsRules = [checkExact([
 

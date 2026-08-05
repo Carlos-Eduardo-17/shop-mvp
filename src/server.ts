@@ -26,11 +26,11 @@ export class Server {
     middlewares() {
         this.app.use(cors({
             origin: process.env.FRONTEND_URL || 'http://localhost:5173', // URL del frontend (Vite en local, Vercel en producción)
-            credentials: true // Vital para aceptar las cookies HttpOnly
+            credentials: true // Permite aceptar las cookies HttpOnly
         }));
-        this.app.use(express.json());
-        this.app.use(helmet());
-        this.app.use(cookieParser());
+        this.app.use(express.json()); // Permite recibir datos en formato JSON en las solicitudes
+        this.app.use(helmet()); // Permite proteger la app de vulnerabilidades conocidas en HTTP
+        this.app.use(cookieParser()); // Permite leer las cookies de las solicitudes entrantes
     }
 
     routes() {
@@ -39,8 +39,6 @@ export class Server {
         });
         this.app.use("/api/users", userRoute);
         this.app.use("/api/auth", authRoute);
-
-
         this.app.use("/api/categories", categoryRoute);
         this.app.use("/api/products", productRoute);
         this.app.use("/api/cart", cartRoute);

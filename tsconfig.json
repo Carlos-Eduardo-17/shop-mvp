@@ -21,8 +21,8 @@
     "verbatimModuleSyntax": false, // Preserva la sintaxis de import/export sin transformaciones, útil para herramientas que esperan ESM puro.  
     // "lib": ["esnext"], // Incluye las últimas características de JavaScript, como Promise, Map, Set, etc. (opcional si target ya es ES2022).
     "types": [
-      "node"
-    ], // Incluye tipos de Node.js para desarrollo (opcional si se instalan @types/node).
+      "node" // Incluye tipos de Node.js para desarrollo (opcional si se instalan @types/node).
+    ],
     // "noImplicitReturns": true, // Requiere que todas las funciones devuelvan un valor o no devuelvan nada, evitando errores de lógica.
     // "noImplicitOverride": true, // Requiere que los métodos que sobrescriben otros en clases tengan la palabra clave 'override', asegurando que realmente están sobrescribiendo algo.
     "noUnusedLocals": true, // Requiere que todas las variables declaradas sean usadas, evitando código muerto.
@@ -32,7 +32,7 @@
     "noImplicitAny": true, // Requiere que todas las variables tengan un tipo explícito o inferido, evitando el uso implícito de 'any' que puede ocultar errores.    
   },
   "include": [
-    "src/**/*", // Única carpeta que nos interesa compilar    
+    "src/**/*", // Única carpeta que compilará TS.
   ],
   "exclude": [
     "node_modules", // Evita que TS compile esos archivos cuando se los llama con import

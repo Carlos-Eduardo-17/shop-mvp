@@ -3,7 +3,7 @@ import { JwtPayload } from 'jsonwebtoken';
 declare global {
     namespace Express {
         interface Request {
-            // Inyectamos el usuario con los datos que guardaste en el payload del token
+            // Inyecta el usuario con los datos que guardados en el payload del token
             user?: {
                 userId: string;
             };

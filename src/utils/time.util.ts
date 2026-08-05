@@ -1,5 +1,8 @@
 export function getPeruTime(secondsToAdd: number = 0): string {
 
+    // Creado para obtener la hora actual en Perú (UTC-5) y sumarle segundos si es necesario. Devuelve un string con la fecha y hora en formato local.
+    // Usado únicamente para mostrar la hora de Perú al usuario final.
+
     // Hora actual en UTC
     const now = new Date();
 
